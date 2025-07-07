@@ -1,0 +1,15 @@
+{
+  "name": "com.scarecrow.unity-library",
+  "displayName": "Unity Sound Library",
+  "description": "Unity Sound Library",
+  "version": "1.0.0",
+  "keywords": [
+    "sound"
+  ],
+  "dependencies": {},
+  "author": {
+    "name": "scarecrow",
+    "url": "https://github.com/scarecrow-snow"
+  },
+  "documentationUrl": "https://github.com/scarecrow-snow/SoundManager/README.md"
+}
