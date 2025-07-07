@@ -1,12 +1,14 @@
 {
   "name": "com.scarecrow.unity-sound-library",
-  "displayName": "Unity Sound Library",
-  "description": "Unity Sound Library",
+  "displayName": "Unity Sound SC_Library",
+  "description": "Unity Sound SC_Library, A comprehensive sound management system for Unity. It provides efficient audio playback, object pooling, and music management features.",
   "version": "1.0.0",
   "keywords": [
     "sound"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "com.cysharp.unitask": "2.3.3"
+  },
   "author": {
     "name": "scarecrow",
     "url": "https://github.com/scarecrow-snow"
