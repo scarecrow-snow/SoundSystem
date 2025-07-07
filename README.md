@@ -3,7 +3,8 @@
 
 ## 概要
 
-このプロジェクトは、Unity向けの包括的なサウンド管理システムです。効率的なオーディオ再生、オブジェクトプーリング、音楽管理機能を提供します。
+このプロジェクトは、Unity向けの包括的なサウンド管理システムです。効率的なオーディオ再生、オブジェクトプーリング、音楽管理機能を提供します。  
+**非同期処理には [UniTask](https://github.com/Cysharp/UniTask) を利用しています。**
 
 ## 主要機能
 
@@ -38,7 +39,7 @@
 
 #### `SoundEmitter` (SoundEmitter.cs:10)
 - 実際のオーディオ再生を担当
-- UniTaskを使用した非同期処理
+- **UniTaskを使用した非同期処理**
 - 自動的なプールへの返却
 
 #### `SoundBuilder` (SoundBuilder.cs:5)
@@ -107,7 +108,8 @@ MusicManager.Instance.Play(musicClip);
 ## 依存関係
 
 - **Unity Audio System**: 基本的なオーディオ機能
-- **UniTask**: 非同期処理 (Cysharp.Threading.Tasks)
+- **UniTask**: 非同期処理 ([Cysharp.Threading.Tasks](https://github.com/Cysharp/UniTask))  
+  ※本システムはUniTaskに依存しています。  
 - **Unity Object Pooling**: オブジェクトプーリング (UnityEngine.Pool)
 
 ## ファイル構造
