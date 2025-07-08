@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace AudioSystem
+namespace SCLib_SoundSystem
 {
     /// <summary>
     /// 音楽管理とクロスフェード機能を提供するマネージャークラス

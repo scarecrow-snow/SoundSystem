@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AudioSystem
+namespace SCLib_SoundSystem
 {
     /// <summary>
     /// GameObjectに対する拡張メソッドを提供するクラス

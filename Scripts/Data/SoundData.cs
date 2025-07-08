@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace AudioSystem
+namespace SCLib_SoundSystem
 {
     /// <summary>
     /// AudioSourceの全パラメータを管理するデータクラス

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace AudioSystem
+namespace SCLib_SoundSystem
 {
     /// <summary>
     /// ビルダーパターンによるサウンド設定・再生クラス
@@ -37,24 +37,29 @@ namespace AudioSystem
         /// プールからのエミッター取得や同時再生数チェックに使用されます
         /// </summary>
         readonly SoundManager soundManager;
-        
+
         /// <summary>
         /// 再生するサウンドの設定データ
         /// WithSoundData()で設定されます
         /// </summary>
         SoundData soundData;
-        
+
         /// <summary>
         /// サウンドを再生する3D位置
         /// デフォルトは原点、WithPosition()で変更可能です
         /// </summary>
         Vector3 position = Vector3.zero;
-        
+
         /// <summary>
         /// ランダムピッチを適用するかどうかのフラグ
         /// WithRandomPitch()で有効化されます
         /// </summary>
         bool randomPitch;
+
+
+
+        bool randomVolume;
+        Vector2 volumeOffset = Vector2.zero;
 
         /// <summary>
         /// SoundBuilderのコンストラクタ
@@ -65,7 +70,7 @@ namespace AudioSystem
         {
             this.soundManager = soundManager;
         }
-        
+
         /// <summary>
         /// 再生するサウンドデータを設定します
         /// このメソッドは必須で、Play()前に必ず呼び出す必要があります
@@ -122,6 +127,29 @@ namespace AudioSystem
         }
 
         /// <summary>
+        /// ランダム音量効果を有効にします
+        /// 同じサウンドでも毎回異なる音量で再生され、音の多様性を実現します
+        /// </summary>
+        /// <param name="min">音量変化の最小値（負の値で小さくなる）</param>
+        /// <param name="max">音量変化の最大値（正の値で大きくなる）</param>
+        /// <returns>メソッドチェーンのためのSoundBuilderインスタンス</returns>
+        /// <remarks>
+        /// 音量変化の範囲はSoundEmitter.WithRandomVolume()で制御されます
+        /// 基準値からの相対的な変化として適用されます
+        /// </remarks>
+        /// <example>
+        /// <code>
+        /// builder.WithRandomVolume(-0.1f, 0.1f) // 環境音の音量バリエーション
+        /// </code>
+        /// </example>
+        public SoundBuilder WithRandomVolume(float min = -0.05f, float max = 0.05f)
+        {
+            this.randomVolume = true;
+            this.volumeOffset = new Vector2(min, max);
+            return this;
+        }
+
+        /// <summary>
         /// 設定されたパラメータでサウンドを再生します
         /// これまでのメソッドチェーンで設定された全ての設定を適用し、実際の再生を実行します
         /// </summary>
@@ -164,9 +192,14 @@ namespace AudioSystem
                 soundEmitter.WithRandomPitch(); // ランダムピッチ効果を適用
             }
 
+            if (randomVolume)
+            {
+                soundEmitter.WithRandomVolume(volumeOffset.x, volumeOffset.y);
+            }
+
             // 同時再生数の追跡更新
             IncrementSoundCount();
-            
+
             // サウンド再生開始（非同期監視も自動開始）
             soundEmitter.Play();
         }

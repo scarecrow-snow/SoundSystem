@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using AudioSystem;
+using SCLib_SoundSystem;
 using UnityEngine.Audio;
 
 /// <summary>

@@ -1,4 +1,4 @@
-namespace AudioSystem
+namespace SCLib_SoundSystem
 {
     using UnityEngine;
 
