@@ -2,7 +2,7 @@
   "name": "com.scarecrow.unity-sound-library",
   "displayName": "Unity_Sound_SC_Library",
   "description": "Unity_Sound_SC_Library, A comprehensive sound management system for Unity. It provides efficient audio playback, object pooling, and music management features.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "sound"
   ],

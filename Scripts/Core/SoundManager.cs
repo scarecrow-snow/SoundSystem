@@ -217,7 +217,10 @@ namespace SCLib_SoundSystem
         /// <param name="soundEmitter">破棄するSoundEmitterインスタンス</param>
         void OnDestroyPoolObject(SoundEmitter soundEmitter)
         {
-            Destroy(soundEmitter.gameObject);
+            if (soundEmitter != null && soundEmitter.gameObject != null)
+            {
+                Destroy(soundEmitter.gameObject);
+            }
         }
     }
 }
