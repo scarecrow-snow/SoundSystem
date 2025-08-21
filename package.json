@@ -2,7 +2,7 @@
   "name": "com.scarecrow.unity-sound-library",
   "displayName": "Unity_Sound_SC_Library",
   "description": "Unity_Sound_SC_Library, A comprehensive sound management system for Unity. It provides efficient audio playback, object pooling, and music management features.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "keywords": [
     "sound"
   ],
@@ -13,6 +13,13 @@
     "name": "scarecrow",
     "url": "https://github.com/scarecrow-snow"
   },
-  "documentationUrl": "https://github.com/scarecrow-snow/SoundManager/README.md"
- 
+  "documentationUrl": "https://github.com/scarecrow-snow/SoundManager/README.md",
+  
+  "samples": [
+    {
+      "displayName": "SoundManager Sample",
+      "description": "A sample demonstrating the usage of SoundManager.",
+      "path": "Samples~/Demo"
+    }
+  ]
 }

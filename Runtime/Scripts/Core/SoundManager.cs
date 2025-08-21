@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -20,30 +21,30 @@ namespace SCLib_SoundSystem
     /// 基本的な使用例:
     /// <code>
     /// // サウンドを再生
-    /// SoundManager.Instance.CreateSoundBuilder()
+    /// SoundManager.CreateSoundBuilder()
     ///     .WithSoundData(soundData)
     ///     .WithPosition(transform.position)
     ///     .WithRandomPitch()
     ///     .Play();
     /// 
     /// // すべてのサウンドを停止
-    /// SoundManager.Instance.StopAll();
+    /// SoundManager.StopAll();
     /// </code>
     /// </example>
-    public class SoundManager
+    public class SoundManager : IDisposable
     {
         /// <summary>
         /// SoundEmitterオブジェクトのプール
         /// メモリ効率とパフォーマンスを向上させるため、オブジェクトの再利用を管理します
         /// </summary>
         IObjectPool<SoundEmitter> soundEmitterPool;
-        
+
         /// <summary>
         /// 現在アクティブ（再生中）なSoundEmitterのリスト
         /// StopAll()メソッドや統計情報の取得に使用されます
         /// </summary>
         readonly List<SoundEmitter> activeSoundEmitters = new();
-        
+
         /// <summary>
         /// 各SoundDataの現在の同時再生数を追跡する辞書
         /// 同時再生数制限の実装に使用され、パフォーマンスの最適化を図ります
@@ -55,31 +56,31 @@ namespace SCLib_SoundSystem
         /// プールで生成されるSoundEmitterの元となるプレハブです
         /// </summary>
         SoundEmitter soundEmitterPrefab;
-        
+
         /// <summary>
         /// プールのコレクションチェックを有効にするかどうか
         /// デバッグ時に重複した返却を検出できますが、パフォーマンスに影響します
         /// </summary>
         bool collectionCheck = true;
-        
+
         /// <summary>
         /// プールの初期容量
         /// 開始時に事前に作成されるSoundEmitterの数です
         /// </summary>
         int defaultCapacity = 10;
-        
+
         /// <summary>
         /// プールの最大サイズ
         /// プールが保持できるSoundEmitterの最大数です
         /// </summary>
         int maxPoolSize = 100;
-        
+
         /// <summary>
         /// 同一サウンドの最大同時再生数
         /// パフォーマンスを保護するための制限値です
         /// </summary>
         int maxSoundInstances = 30;
-        
+
         Transform parent;
 
         public Transform transform => parent;
@@ -95,7 +96,7 @@ namespace SCLib_SoundSystem
 
             InitializePool();
         }
-        
+
         /// <summary>
         /// サウンド再生用のビルダーを作成します
         /// ビルダーパターンにより、柔軟で直感的なサウンド設定が可能です
@@ -223,6 +224,19 @@ namespace SCLib_SoundSystem
             {
                 GameObject.Destroy(soundEmitter.gameObject);
             }
+        }
+
+        public void Dispose()
+        {
+            // アクティブなサウンドエミッターを全て停止
+            foreach (var soundEmitter in activeSoundEmitters)
+            {
+                soundEmitter.Stop();
+            }
+            activeSoundEmitters.Clear();
+
+            // 同時再生数カウントをクリア
+            Counts.Clear();
         }
     }
 }

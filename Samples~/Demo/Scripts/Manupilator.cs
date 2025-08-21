@@ -115,7 +115,12 @@ public class Manupilator : MonoBehaviour
         }
     }
 
-   
+    void OnDestroy()
+    {
+        soundManager.Dispose();
+        soundManager = null;
+    }
+
     public void StopAll()
     {
         // SoundManagerのStopAllメソッドを呼び出してすべてのサウンドを停止
