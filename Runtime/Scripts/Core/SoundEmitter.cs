@@ -166,7 +166,7 @@ namespace SCLib_SoundSystem
         public void Stop()
         {
             StopPlaying();                               // 非同期処理を停止
-            audioSource.Stop();
+            audioSource?.Stop();
         }
 
         /// <summary>
