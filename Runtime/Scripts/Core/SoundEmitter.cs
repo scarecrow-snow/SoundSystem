@@ -49,7 +49,7 @@ namespace SCLib_SoundSystem
         /// 手動停止時や重複再生防止に使用されます
         /// </summary>
         CancellationTokenSource cts;
-
+        
         /// <summary>
         /// MonoBehaviourのAwakeメソッド
         /// AudioSourceコンポーネントを取得または追加します
@@ -118,7 +118,7 @@ namespace SCLib_SoundSystem
 
             if (cts == null || cts.IsCancellationRequested)
             {
-                cts = new CancellationTokenSource();
+                cts = CancellationTokenSource.CreateLinkedTokenSource(new CancellationTokenSource().Token, destroyCancellationToken);
             }
 
             // キャンセル制御用トークン作成
@@ -175,7 +175,7 @@ namespace SCLib_SoundSystem
         /// </summary>
         private void StopPlaying()
         {
-            if (audioSource.isPlaying && cts != null && !cts.IsCancellationRequested)
+            if (audioSource != null && audioSource.isPlaying && cts != null && !cts.IsCancellationRequested)
             {
                 cts.Cancel();   // 非同期処理をキャンセル
                 cts.Dispose();  // リソース解放

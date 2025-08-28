@@ -7,7 +7,7 @@
     "sound"
   ],
   "dependencies": {
-    "com.cysharp.unitask": "2.3.3"
+    "com.cysharp.unitask": "2.3.5"
   },
   "author": {
     "name": "scarecrow",
