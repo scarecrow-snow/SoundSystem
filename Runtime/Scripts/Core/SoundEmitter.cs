@@ -144,8 +144,11 @@ namespace SCLib_SoundSystem
             }
             catch (OperationCanceledException)
             {
-                // 手動停止や重複再生防止でキャンセルされた場合の処理
-                // 特別な処理は不要（プール返却は別途行われる）
+                if (audioSource != null && audioSource.isPlaying)
+                {
+                    audioSource?.Stop();
+                }
+                
             }
             catch (Exception ex)
             {
@@ -166,7 +169,6 @@ namespace SCLib_SoundSystem
         public void Stop()
         {
             StopPlaying();                               // 非同期処理を停止
-            audioSource?.Stop();
         }
 
         /// <summary>
