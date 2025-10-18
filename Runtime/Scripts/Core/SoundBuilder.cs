@@ -3,16 +3,17 @@ using UnityEngine;
 namespace SCLib_SoundSystem
 {
     /// <summary>
-    /// ビルダーパターンによるサウンド設定・再生クラス
+    /// ビルダーパターンによるサウンド設定・再生構造体
     /// メソッドチェーンを使用して直感的かつ柔軟なサウンド設定を実現します
     /// 複雑なサウンド設定を段階的に構築し、最終的にPlay()で一括実行されます
     /// </summary>
     /// <remarks>
-    /// このクラスは以下の利点を提供します：
+    /// この構造体は以下の利点を提供します：
     /// - メソッドチェーンによる読みやすいコード
     /// - 段階的な設定による設定ミスの防止
     /// - 柔軟な組み合わせによる多様なサウンド再生
     /// - SoundManagerとの密接な連携による効率的なリソース管理
+    /// - ゼロアロケーションによる高パフォーマンス（GC負荷ゼロ）
     /// </remarks>
     /// <example>
     /// 基本的な使用例:
@@ -21,7 +22,7 @@ namespace SCLib_SoundSystem
     /// SoundManager.Instance.CreateSoundBuilder()
     ///     .WithSoundData(soundData)
     ///     .Play();
-    /// 
+    ///
     /// // 位置指定付きランダムピッチ再生
     /// SoundManager.Instance.CreateSoundBuilder()
     ///     .WithSoundData(explosionSound)
@@ -30,7 +31,7 @@ namespace SCLib_SoundSystem
     ///     .Play();
     /// </code>
     /// </example>
-    public class SoundBuilder
+    public struct SoundBuilder
     {
         /// <summary>
         /// サウンド管理を担当するSoundManagerの参照
@@ -48,7 +49,7 @@ namespace SCLib_SoundSystem
         /// サウンドを再生する3D位置
         /// デフォルトは原点、WithPosition()で変更可能です
         /// </summary>
-        Vector3 position = Vector3.zero;
+        Vector3 position;
 
         /// <summary>
         /// ランダムピッチを適用するかどうかのフラグ
@@ -56,19 +57,31 @@ namespace SCLib_SoundSystem
         /// </summary>
         bool randomPitch;
 
-
-
+        /// <summary>
+        /// ランダムボリュームを適用するかどうかのフラグ
+        /// WithRandomVolume()で有効化されます
+        /// </summary>
         bool randomVolume;
-        Vector2 volumeOffset = Vector2.zero;
+
+        /// <summary>
+        /// ランダムボリュームのオフセット範囲
+        /// x: 最小値、y: 最大値
+        /// </summary>
+        Vector2 volumeOffset;
 
         /// <summary>
         /// SoundBuilderのコンストラクタ
         /// SoundManagerの参照を保持し、後続の処理で使用します
         /// </summary>
         /// <param name="soundManager">サウンド管理を担当するSoundManager</param>
-        public SoundBuilder(SoundManager soundManager)
+        internal SoundBuilder(SoundManager soundManager)
         {
             this.soundManager = soundManager;
+            this.soundData = null;
+            this.position = Vector3.zero;
+            this.randomPitch = false;
+            this.randomVolume = false;
+            this.volumeOffset = Vector2.zero;
         }
 
         /// <summary>
@@ -84,8 +97,9 @@ namespace SCLib_SoundSystem
         /// </example>
         public SoundBuilder WithSoundData(SoundData soundData)
         {
-            this.soundData = soundData;
-            return this;
+            var builder = this;
+            builder.soundData = soundData;
+            return builder;
         }
 
         /// <summary>
@@ -102,8 +116,9 @@ namespace SCLib_SoundSystem
         /// </example>
         public SoundBuilder WithPosition(Vector3 position)
         {
-            this.position = position;
-            return this;
+            var builder = this;
+            builder.position = position;
+            return builder;
         }
 
         /// <summary>
@@ -122,8 +137,9 @@ namespace SCLib_SoundSystem
         /// </example>
         public SoundBuilder WithRandomPitch()
         {
-            this.randomPitch = true;
-            return this;
+            var builder = this;
+            builder.randomPitch = true;
+            return builder;
         }
 
         /// <summary>
@@ -144,9 +160,10 @@ namespace SCLib_SoundSystem
         /// </example>
         public SoundBuilder WithRandomVolume(float min = -0.05f, float max = 0.05f)
         {
-            this.randomVolume = true;
-            this.volumeOffset = new Vector2(min, max);
-            return this;
+            var builder = this;
+            builder.randomVolume = true;
+            builder.volumeOffset = new Vector2(min, max);
+            return builder;
         }
 
         /// <summary>
