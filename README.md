@@ -29,11 +29,11 @@
 ### コアクラス
 
 #### `SoundManager` (SoundManager.cs:7)
-- シングルトンパターンで実装
 - オブジェクトプーリングによる効率的なリソース管理
 - 同時再生数の制御機能
 
 #### `MusicManager` (MusicManager.cs:7)
+- シングルトンパターンで実装
 - 音楽トラックの管理
 - クロスフェード機能
 - プレイリスト機能
@@ -231,4 +231,5 @@ public SoundBuilder WithSoundData(SoundData soundData)
 - **高頻度再生（足音、環境音等）**: ゼロアロケーション設計により最適
 - **3D音響**: `WithPosition()`で位置指定、`spatialBlend`で空間音響を設定
 - **音のバリエーション**: `WithRandomPitch()`や`WithRandomVolume()`で単調さを回避
+
 - **モバイルゲーム**: 同時再生数制限とゼロアロケーションでメモリ効率を最大化
